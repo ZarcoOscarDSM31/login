@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #data-container {
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bluetooth Data</h1>
+    <div id="data-container">
+        <p>Humedad: <span id="humidity"></span> %</p>
+        <p>Temperatura: <span id="temperature"></span> °C</p>
+    </div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8080'); // Conectar al servidor WebSocket
+
+        ws.onmessage = function(event) {
+            const dataString = event.data; // Obtener datos como cadena de texto
+            const dataArray = dataString.split(','); // Dividir la cadena por comas para obtener valores individuales
+            const humidity = dataArray[0]; // Obtener humedad del primer elemento del array
+            const temperature = dataArray[1]; // Obtener temperatura del segundo elemento del array
+            document.getElementById('humidity').innerText = humidity; // Actualizar dato de humedad en la página
+            document.getElementById('temperature').innerText = temperature; // Actualizar dato de temperatura en la página
+        };
+    </script>
+</body>
+</html>
